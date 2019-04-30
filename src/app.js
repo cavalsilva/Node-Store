@@ -10,6 +10,9 @@ const router = express.Router();
 // Conecta ao banco
 mongoose.connect('mongodb+srv://cavalsilva:ric456@ndstr-nbqkq.azure.mongodb.net/test?retryWrites=true');
 
+// Carrega os Models
+const Product = require('./models/product');
+
 // Carrega as Rotas
 const indexRoute = require('./routes/index-route');
 const productRoute = require('./routes/product-route');
