@@ -1,7 +1,5 @@
 'use strict';
 
-const mongoose = require('mongoose');
-const Product = mongoose.model('Product');
 const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/product-repository');
 
@@ -60,15 +58,6 @@ exports.post = async (req, res, next) => {
         res.status(400).send(contract.errors()).end();
         return;
     }
-
-    let product = new Product();
-    product.title = req.body.title;
-    product.slug = req.body.slug;
-    product.description = req.body.description;
-    product.price = req.body.price;
-    product.active = req.body.active;
-    product.tags = req.body.tags;
-    product.image = req.body.image;
 
     try {
         await repository.create(req.body);
