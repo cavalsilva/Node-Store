@@ -1,5 +1,6 @@
 'use strict';
 
+const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/order-repository');
 const guid = require('guid');
 const authService = require('../services/auth-service');
@@ -16,6 +17,17 @@ exports.get = async (req, res, next) => {
 }
 
 exports.post = async(req, res, next) => {
+    let contract = new ValidationContract();
+    contract.isRequired(req.body.customer, "Deve ser informado um cliente");
+    contract.isRequired(req.body.items, "Deve informar um item");
+
+    // Se os dados foram inválidos
+    if (!contract.isValid()) {
+        res.status(400).send(contract.errors()).end();
+        return;
+    }    
+
+
     try {
         // Recupera o token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
